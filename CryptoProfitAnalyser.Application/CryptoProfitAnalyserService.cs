@@ -43,24 +43,9 @@ namespace CryptoProfitAnalyser.Application
             return netProfit;
         }
 
-        public decimal GetCoinUnrealisedProfit(DateRange dateRange, string coinSymbol)
-        {
-            var buyTransactions = transactionService.GetCoinTransactions(dateRange, coinSymbol).Where(t => t.TransactionType == TransactionType.Buy);
-            var totalBuyCost = buyTransactions.Sum(t => t.Quantity * t.Rate + t.Fee);
-            var totalQuantityBought = buyTransactions.Sum(t => t.Quantity);
-            var coinRate = transactionService.GetCoinRate(dateRange.EndDate);
-
-            return totalQuantityBought * coinRate - totalBuyCost;
-        }
-
         public decimal GetTotalRealisedProfit(DateRange dateRange)
         {
             return transactionService.GetAllTransactedCoinSymbols(dateRange).Sum(c => GetCoinRealisedProfit(dateRange, c));
-        }
-
-        public decimal GetTotalUnrealisedProfit(DateRange dateRange)
-        {
-            return transactionService.GetAllTransactedCoinSymbols(dateRange).Sum(c => GetCoinUnrealisedProfit(dateRange, c));
         }
     }
 }

@@ -7,6 +7,5 @@ namespace CryptoProfitAnalyser.Application
     {
         IEnumerable<Transaction> GetCoinTransactions(DateRange dateRange, string coinSymbol);
         IEnumerable<string> GetAllTransactedCoinSymbols(DateRange dateRage);
-        decimal GetCoinRate(DateTime date);
     }
 }
