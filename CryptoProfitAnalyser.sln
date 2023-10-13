@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33424.131
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoProfitAnalyser.API", "CryptoProfitAnalyser\CryptoProfitAnalyser.API.csproj", "{700BD940-666E-45F0-B6D1-FCE6DF9B6F95}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoProfitAnalyser.API", "CryptoProfitAnalyser\CryptoProfitAnalyser.API.csproj", "{700BD940-666E-45F0-B6D1-FCE6DF9B6F95}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoProfitAnalyser.Domain", "CryptoProfitAnalyser.Domain\CryptoProfitAnalyser.Domain.csproj", "{98E1E9B2-C0E9-4C4F-B057-BF956AE0A351}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoProfitAnalyser.Domain", "CryptoProfitAnalyser.Domain\CryptoProfitAnalyser.Domain.csproj", "{98E1E9B2-C0E9-4C4F-B057-BF956AE0A351}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoProfitAnalyser.Application", "CryptoProfitAnalyser.Application\CryptoProfitAnalyser.Application.csproj", "{C6152476-9B92-4212-98CF-E0B40CCE0879}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoProfitAnalyser.Application", "CryptoProfitAnalyser.Application\CryptoProfitAnalyser.Application.csproj", "{C6152476-9B92-4212-98CF-E0B40CCE0879}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoProfitAnalyser.Infrastructure", "CryptoProfitAnalyser.Infrastructure\CryptoProfitAnalyser.Infrastructure.csproj", "{58C99269-CEA6-4E7A-8141-936EE287C138}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{C6152476-9B92-4212-98CF-E0B40CCE0879}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C6152476-9B92-4212-98CF-E0B40CCE0879}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C6152476-9B92-4212-98CF-E0B40CCE0879}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58C99269-CEA6-4E7A-8141-936EE287C138}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58C99269-CEA6-4E7A-8141-936EE287C138}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58C99269-CEA6-4E7A-8141-936EE287C138}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58C99269-CEA6-4E7A-8141-936EE287C138}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
