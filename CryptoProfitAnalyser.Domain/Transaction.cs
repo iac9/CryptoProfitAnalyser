@@ -7,12 +7,5 @@
         public decimal Quantity { get; set; }
         public decimal Rate { get; set; }
         public decimal Fee { get; set; }
-        public TransactionType TransactionType { get; set; }
-    }
-
-    public enum TransactionType
-    {
-        Buy,
-        Sell
     }
 }

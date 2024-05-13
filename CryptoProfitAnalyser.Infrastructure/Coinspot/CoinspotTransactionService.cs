@@ -103,7 +103,6 @@ namespace CryptoProfitAnalyser.Infrastructure
                     Quantity = coinspotTransaction.Amount,
                     Rate = coinspotTransaction.Rate,
                     Fee = coinspotTransaction.AudTotal * 0.01M,
-                    TransactionType = TransactionType.Buy
                 };
             }
         }

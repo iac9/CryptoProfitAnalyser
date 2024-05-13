@@ -1,5 +1,4 @@
 ﻿using CryptoProfitAnalyser.Domain;
-using System.Diagnostics;
 
 namespace CryptoProfitAnalyser.Application
 {

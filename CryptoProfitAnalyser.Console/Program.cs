@@ -8,7 +8,7 @@ var endDate = new DateTime(2024, 6, 30);
 
 var dateRange = new DateRange(startDate, endDate);
 var coinspotTransactionService = new CoinspotTransactionService();
-var orderHistory = await coinspotTransactionService.GetOrderHistory(dateRange, "BTC");
+var orderHistory = await coinspotTransactionService.GetOrderHistory(dateRange, "LINA");
 var json = JsonConvert.SerializeObject(orderHistory, Formatting.Indented);
 
 Console.WriteLine(json);
