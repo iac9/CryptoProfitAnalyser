@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoProfitAnalyser.Domain
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoProfitAnalyser.Application", "CryptoProfitAnalyser.Application\CryptoProfitAnalyser.Application.csproj", "{C6152476-9B92-4212-98CF-E0B40CCE0879}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoProfitAnalyser.Infrastructure", "CryptoProfitAnalyser.Infrastructure\CryptoProfitAnalyser.Infrastructure.csproj", "{58C99269-CEA6-4E7A-8141-936EE287C138}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoProfitAnalyser.Infrastructure", "CryptoProfitAnalyser.Infrastructure\CryptoProfitAnalyser.Infrastructure.csproj", "{58C99269-CEA6-4E7A-8141-936EE287C138}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoProfitAnalyser.Console", "CryptoProfitAnalyser.Console\CryptoProfitAnalyser.Console.csproj", "{0A8071AF-E342-41A1-8E67-8EF54B572C57}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{58C99269-CEA6-4E7A-8141-936EE287C138}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{58C99269-CEA6-4E7A-8141-936EE287C138}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{58C99269-CEA6-4E7A-8141-936EE287C138}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A8071AF-E342-41A1-8E67-8EF54B572C57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A8071AF-E342-41A1-8E67-8EF54B572C57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A8071AF-E342-41A1-8E67-8EF54B572C57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A8071AF-E342-41A1-8E67-8EF54B572C57}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
