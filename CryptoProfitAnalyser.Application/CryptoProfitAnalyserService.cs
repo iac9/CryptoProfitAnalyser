@@ -2,14 +2,9 @@
 
 namespace CryptoProfitAnalyser.Application
 {
-    public class CryptoProfitAnalyserService : ICryptoProfitAnalyserService
+    public class CryptoProfitAnalyserService(ITransactionService transactionService) : ICryptoProfitAnalyserService
     {
-        private readonly ITransactionService transactionService;
-
-        public CryptoProfitAnalyserService(ITransactionService transactionService)
-        {
-            this.transactionService = transactionService;
-        }
+        private readonly ITransactionService transactionService = transactionService;
 
         public async Task<decimal> GetCoinRealisedProfit(DateRange dateRange, string coinSymbol)
         {
@@ -24,20 +19,20 @@ namespace CryptoProfitAnalyser.Application
                 {
                     var lastBuyTransaction = buyTransactions.Last();
 
-                    if (sellTransaction.Quantity <= lastBuyTransaction.Quantity)
+                    if (sellTransaction.Coin.Quantity <= lastBuyTransaction.Coin.Quantity)
                     {
-                        buyTransactions[^1].Quantity -= sellTransaction.Quantity;
-                        sellTransaction.Quantity = 0;
+                        buyTransactions[^1].Coin.Quantity -= sellTransaction.Coin.Quantity;
+                        sellTransaction.Coin.Quantity = 0;
                     }
                     else
                     {
                         buyTransactions.RemoveAt(buyTransactions.Count - 1);
-                        sellTransaction.Quantity -= lastBuyTransaction.Quantity;
+                        sellTransaction.Coin.Quantity -= lastBuyTransaction.Coin.Quantity;
                     }
 
-                    netProfit += (sellTransaction.Rate - lastBuyTransaction.Rate) * sellTransaction.Quantity;
+                    netProfit += (sellTransaction.Rate - lastBuyTransaction.Rate) * sellTransaction.Coin.Quantity;
 
-                } while (sellTransaction.Quantity > buyTransactions.Last().Quantity);
+                } while (sellTransaction.Coin.Quantity > buyTransactions.Last().Coin.Quantity);
             }
 
             return netProfit;

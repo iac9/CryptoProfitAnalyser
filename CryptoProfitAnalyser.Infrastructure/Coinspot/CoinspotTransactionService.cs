@@ -98,9 +98,12 @@ namespace CryptoProfitAnalyser.Infrastructure
             {
                 yield return new Transaction
                 {
-                    CoinSymbol = coinspotTransaction.Coin,
+                    Coin = new Coin
+                    {
+                        Symbol = coinspotTransaction.Coin,
+                        Quantity = coinspotTransaction.Amount
+                    },
                     DateOccurred = Utilities.ParseUtcDateTimeString(coinspotTransaction.SoldDate),
-                    Quantity = coinspotTransaction.Amount,
                     Rate = coinspotTransaction.Rate,
                     Fee = coinspotTransaction.AudTotal * 0.01M,
                 };

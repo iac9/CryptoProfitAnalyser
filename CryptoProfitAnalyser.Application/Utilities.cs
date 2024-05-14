@@ -6,7 +6,7 @@
         {
             var parsedSuccessfully = DateTime.TryParse(utcDateTime, out DateTime dateTime);
 
-            return parsedSuccessfully ? dateTime : throw new FormatException();
+            return parsedSuccessfully ? dateTime : throw new FormatException(utcDateTime);
         }
     }
 }
