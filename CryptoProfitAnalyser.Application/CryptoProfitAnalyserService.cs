@@ -19,20 +19,20 @@ namespace CryptoProfitAnalyser.Application
                 {
                     var lastBuyTransaction = buyTransactions.Last();
 
-                    if (sellTransaction.Coin.Quantity <= lastBuyTransaction.Coin.Quantity)
+                    if (sellTransaction.Quantity <= lastBuyTransaction.Quantity)
                     {
-                        buyTransactions[^1].Coin.Quantity -= sellTransaction.Coin.Quantity;
-                        sellTransaction.Coin.Quantity = 0;
+                        buyTransactions[^1].Quantity -= sellTransaction.Quantity;
+                        sellTransaction.Quantity = 0;
                     }
                     else
                     {
                         buyTransactions.RemoveAt(buyTransactions.Count - 1);
-                        sellTransaction.Coin.Quantity -= lastBuyTransaction.Coin.Quantity;
+                        sellTransaction.Quantity -= lastBuyTransaction.Quantity;
                     }
 
-                    netProfit += (sellTransaction.Rate - lastBuyTransaction.Rate) * sellTransaction.Coin.Quantity;
+                    netProfit += (sellTransaction.Rate - lastBuyTransaction.Rate) * sellTransaction.Quantity;
 
-                } while (sellTransaction.Coin.Quantity > buyTransactions.Last().Coin.Quantity);
+                } while (sellTransaction.Quantity > buyTransactions.Last().Quantity);
             }
 
             return netProfit;
