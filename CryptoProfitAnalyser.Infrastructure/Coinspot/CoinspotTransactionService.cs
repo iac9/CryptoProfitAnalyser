@@ -1,5 +1,6 @@
 ﻿using CryptoProfitAnalyser.Application;
 using CryptoProfitAnalyser.Domain;
+using CryptoProfitAnalyser.Infrastructure.Coinspot;
 using Newtonsoft.Json;
 using System.Security.Cryptography;
 using System.Text;
@@ -49,12 +50,12 @@ namespace CryptoProfitAnalyser.Infrastructure
                 ? throw new FormatException()
                 : new OrderHistory
                 {
-                    BuyOrders = ConvertToTransactions(coinspotOrderHistory.BuyOrders),
-                    SellOrders = ConvertToTransactions(coinspotOrderHistory.SellOrders)
+                    BuyOrders = coinspotOrderHistory.BuyOrders.ToTransactions(),
+                    SellOrders = coinspotOrderHistory.SellOrders.ToTransactions(),
                 };
         }
 
-        public async Task<string> APIQuery(string endpoint, IDictionary<string, object> postData)
+        private async Task<string> APIQuery(string endpoint, IDictionary<string, object> postData)
         {
             var requestUri = new Uri(baseUrl + endpoint);
 
@@ -82,7 +83,7 @@ namespace CryptoProfitAnalyser.Infrastructure
             return responseString;
         }
 
-        static string HexHash(string message, string key)
+        private static string HexHash(string message, string key)
         {
             var keyByte = new ASCIIEncoding().GetBytes(key);
             var messageBytes = new ASCIIEncoding().GetBytes(message);
@@ -90,21 +91,6 @@ namespace CryptoProfitAnalyser.Infrastructure
 
             // to lowercase hexits
             return string.Concat(Array.ConvertAll(hashmessage, x => x.ToString("x2")));
-        }
-
-        private static IEnumerable<Transaction> ConvertToTransactions(IEnumerable<CoinspotTransaction> coinspotTransactions)
-        {
-            foreach (var coinspotTransaction in coinspotTransactions)
-            {
-                yield return new Transaction
-                {
-                    CoinSymbol = coinspotTransaction.Coin,
-                    Quantity = coinspotTransaction.Amount,
-                    DateOccurred = Utilities.ParseUtcDateTimeString(coinspotTransaction.SoldDate),
-                    Rate = coinspotTransaction.Rate,
-                    Fee = coinspotTransaction.AudTotal * 0.01M,
-                };
-            }
         }
     }
 }

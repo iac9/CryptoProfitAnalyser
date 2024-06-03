@@ -7,3 +7,4 @@ namespace CryptoProfitAnalyser.Application
         Task<OrderHistory> GetOrderHistory(DateRange dateRange, string coinSymbol);
     }
 }
+    

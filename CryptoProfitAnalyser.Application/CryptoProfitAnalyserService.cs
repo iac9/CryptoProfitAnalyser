@@ -10,7 +10,7 @@ namespace CryptoProfitAnalyser.Application
         {
             var orderHistory = await transactionService.GetOrderHistory(dateRange, coinSymbol);
             var buyTransactions = orderHistory.BuyOrders.OrderByDescending(o => o.DateOccurred).ToList();
-            var sellTransactions = orderHistory.SellOrders.OrderByDescending(o => o.DateOccurred).ToList();
+            var sellTransactions = orderHistory.SellOrders.OrderBy(o => o.DateOccurred).ToList();
             var netProfit = 0m;
 
             foreach (var sellTransaction in sellTransactions)
