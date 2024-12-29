@@ -2,10 +2,11 @@
 {
     public class Transaction
     {
-        public string CoinSymbol { get; set; } = string.Empty;
-        public decimal Quantity { get; set; }
-        public DateTime DateOccurred { get; set; }
-        public decimal Rate { get; set; }
-        public decimal Fee { get; set; }
+        public required string CoinSymbol { get; set; }
+        public required DateTime DateOccurredUtc { get; set; }
+        public required decimal Quantity { get; set; }
+        public required decimal Rate { get; set; }
+        public required decimal Fee { get; set; }
+        public required decimal TotalAud { get; set; }
     }
 }

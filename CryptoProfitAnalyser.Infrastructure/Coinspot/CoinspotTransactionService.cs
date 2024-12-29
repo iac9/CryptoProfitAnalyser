@@ -1,63 +1,59 @@
-﻿using CryptoProfitAnalyser.Application;
-using CryptoProfitAnalyser.Domain;
-using CryptoProfitAnalyser.Infrastructure.Coinspot;
-using Newtonsoft.Json;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
+using CryptoProfitAnalyser.Application.Interfaces;
+using CryptoProfitAnalyser.Domain;
+using Newtonsoft.Json;
 
-namespace CryptoProfitAnalyser.Infrastructure
+namespace CryptoProfitAnalyser.Infrastructure.Coinspot
 {
     public class CoinspotTransactionService : ITransactionService
     {
-        private readonly string apiKey;
-        private readonly string apiSecret;
-        private const string baseUrl = "https://www.coinspot.com.au/api/v2";
+        private readonly string _apiKey;
+        private readonly string _apiSecret;
+        private const string BaseUrl = "https://www.coinspot.com.au/api/v2/ro";
 
         public CoinspotTransactionService()
         {
             var apiKey = Environment.GetEnvironmentVariable("COINSPOT_API_KEY");
             var apiSecret = Environment.GetEnvironmentVariable("COINSPOT_API_SECRET");
 
-            if (apiKey == null)
-                throw new ArgumentNullException(nameof(apiKey));
-
-            if (apiSecret == null)
-                throw new ArgumentNullException(nameof(apiSecret));
-
-            this.apiKey = apiKey;
-            this.apiSecret = apiSecret;
+            _apiKey = apiKey ?? throw new ArgumentNullException(nameof(apiKey));
+            _apiSecret = apiSecret ?? throw new ArgumentNullException(nameof(apiSecret));
         }
 
-        public async Task<OrderHistory> GetOrderHistory(DateRange dateRange, string coinType)
+        public async Task<OrderHistory> GetOrderHistory(DateRange dateRange, string? coinType = null)
         {
+            const string endpoint = "/my/orders/completed";
             const string dateTimeFormat = "yyyy-MM-dd";
             var startDateUtc = dateRange.StartDate.ToUniversalTime().ToString(dateTimeFormat);
             var endDateUtc = dateRange.EndDate.ToUniversalTime().ToString(dateTimeFormat);
 
-            var postData = new Dictionary<string, object>
+            var postData = new Dictionary<string, string>
             {
-                { "cointype", coinType },
-                { "startdate  ", startDateUtc },
-                { "enddate  ", endDateUtc },
-                { "markettype ", "AUD" },
-                { "limit ", "500" }
+                { "markettype", "AUD" },
+                { "startdate", startDateUtc },
+                { "enddate", endDateUtc },
             };
 
-            var jsonReponse = await APIQuery("/ro/my/orders/completed", postData);
-            var coinspotOrderHistory = JsonConvert.DeserializeObject<CoinspotOrderHistory>(jsonReponse);
+            if (coinType != null)
+                postData.Add("cointype", coinType);
+            
+            var jsonResponse = await ApiQuery(endpoint, postData);
+            var csOrderHistory = JsonConvert.DeserializeObject<CoinspotOrderHistory>(jsonResponse) ??
+                                 throw new FormatException();
 
-            return coinspotOrderHistory == null
-                ? throw new FormatException()
-                : new OrderHistory
-                {
-                    BuyOrders = coinspotOrderHistory.BuyOrders.ToTransactions(),
-                    SellOrders = coinspotOrderHistory.SellOrders.ToTransactions(),
-                };
+            return new OrderHistory
+            {
+                BuyOrders = csOrderHistory.BuyOrders.ToTransactions(),
+                SellOrders = csOrderHistory.SellOrders.ToTransactions(),
+            };
         }
 
-        private async Task<string> APIQuery(string endpoint, IDictionary<string, object> postData)
+        #region API Query
+
+        private async Task<string> ApiQuery(string endpoint, Dictionary<string, string> postData)
         {
-            var requestUri = new Uri(baseUrl + endpoint);
+            var requestUri = new Uri(BaseUrl + endpoint);
 
             var nonce = DateTime.Now.Ticks.ToString();
             postData.Add("nonce", nonce);
@@ -68,9 +64,9 @@ namespace CryptoProfitAnalyser.Infrastructure
                 Content = new StringContent(postDataJson, Encoding.UTF8, "application/json")
             };
 
-            var signature = HexHash(postDataJson, apiSecret);
+            var signature = HexHash(postDataJson, _apiSecret);
 
-            requestMessage.Content.Headers.Add("key", apiKey);
+            requestMessage.Content.Headers.Add("key", _apiKey);
             requestMessage.Content.Headers.Add("sign", signature);
 
             var httpClient = new HttpClient
@@ -87,10 +83,12 @@ namespace CryptoProfitAnalyser.Infrastructure
         {
             var keyByte = new ASCIIEncoding().GetBytes(key);
             var messageBytes = new ASCIIEncoding().GetBytes(message);
-            var hashmessage = new HMACSHA512(keyByte).ComputeHash(messageBytes);
+            var hashMessage = new HMACSHA512(keyByte).ComputeHash(messageBytes);
 
             // to lowercase hexits
-            return string.Concat(Array.ConvertAll(hashmessage, x => x.ToString("x2")));
+            return string.Concat(Array.ConvertAll(hashMessage, x => x.ToString("x2")));
         }
+
+        #endregion
     }
 }

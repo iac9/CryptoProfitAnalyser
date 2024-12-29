@@ -1,12 +1,13 @@
 ﻿// See https://aka.ms/new-console-template for more information
-using CryptoProfitAnalyser.Application;
+using CryptoProfitAnalyser.Application.Implementations;
 using CryptoProfitAnalyser.Domain;
 using CryptoProfitAnalyser.Infrastructure;
+using CryptoProfitAnalyser.Infrastructure.Coinspot;
 using Newtonsoft.Json;
 
-var startDate = new DateTime(2023, 7, 1);
-var endDate = new DateTime(2024, 6, 30);
-var coinSymbol = "RUNE";
+var startDate = new DateTime(2000, 1, 1);
+var endDate = new DateTime(2025, 01, 01);
+var coinSymbol = "eth";
 
 var dateRange = new DateRange(startDate, endDate);
 var coinspotTransactionService = new CoinspotTransactionService();
@@ -16,9 +17,7 @@ Console.WriteLine(json);
 
 var analyserService = new CryptoProfitAnalyserService(coinspotTransactionService);
 var realisedProfit = await analyserService.GetCoinRealisedProfit(dateRange, coinSymbol);
+var totalRealisedProfit = await analyserService.GetTotalRealisedProfit(dateRange);
+
 Console.WriteLine(realisedProfit);
-
-var coinGeckoService = new CoinGeckoService();
-var res = await coinGeckoService.GetHistoricalCoinPrice("bitcoin", new DateTime(2024, 01, 01));
-Console.WriteLine(res);
-
+Console.WriteLine(totalRealisedProfit);

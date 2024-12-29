@@ -1,11 +1,11 @@
-﻿namespace CryptoProfitAnalyser.Infrastructure
+﻿namespace CryptoProfitAnalyser.Infrastructure.Coinspot
 {
     public class CoinspotOrderHistory
     {
         public string Status { get; set; } = string.Empty;
         public string Message { get; set; } = string.Empty;
-        public IEnumerable<CoinspotTransaction> BuyOrders { get; set; } = Enumerable.Empty<CoinspotTransaction>();
-        public IEnumerable<CoinspotTransaction> SellOrders { get; set; } = Enumerable.Empty<CoinspotTransaction>();
+        public IEnumerable<CoinspotTransaction> BuyOrders { get; set; } = [];
+        public IEnumerable<CoinspotTransaction> SellOrders { get; set; } = [];
 
     }
 

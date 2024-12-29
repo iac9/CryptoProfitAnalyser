@@ -5,19 +5,15 @@ namespace CryptoProfitAnalyser.Infrastructure.Coinspot
 {
     public static class CoinspotMapper
     {
-        public static IEnumerable<Transaction> ToTransactions(this IEnumerable<CoinspotTransaction> coinspotTransactions)
-        {
-            foreach (var coinspotTransaction in coinspotTransactions)
+        public static IEnumerable<Transaction> ToTransactions(this IEnumerable<CoinspotTransaction> csTxns) =>
+            csTxns.Select(t => new Transaction
             {
-                yield return new Transaction
-                {
-                    CoinSymbol = coinspotTransaction.Coin,
-                    Quantity = coinspotTransaction.Amount,
-                    DateOccurred = Utilities.ParseUtcDateTimeString(coinspotTransaction.SoldDate),
-                    Rate = coinspotTransaction.Rate,
-                    Fee = coinspotTransaction.AudTotal * 0.01M,
-                };
-            }
-        }
+                CoinSymbol = t.Coin,
+                Quantity = t.Amount,
+                DateOccurredUtc = Utilities.ParseUtcDateTimeString(t.SoldDate),
+                Rate = t.Market.Contains("AUD") ? t.Rate : t.AudTotal / t.Amount,
+                Fee = t.AudFeeExGst + t.AudGst,
+                TotalAud = t.AudTotal
+            });
     }
 }
